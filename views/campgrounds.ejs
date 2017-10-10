@@ -1,0 +1,16 @@
+<head>
+    <style>
+        img{
+            width:400px;
+        }
+    </style>
+</head>
+<h1>Welcome to campgrounds:</h1>
+
+<% places.forEach(function(campground){ %>
+<div>
+    <h4><%=campground.name%></h4>
+    <img src="<%=campground.image%>">
+</div>
+
+<%})%>
