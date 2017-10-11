@@ -1,16 +1,28 @@
-<head>
-    <style>
-        img{
-            width:400px;
-        }
-    </style>
-</head>
-<h1>Welcome to campgrounds:</h1>
+<% include ./partials/header %>
 
-<% places.forEach(function(campground){ %>
-<div>
-    <h4><%=campground.name%></h4>
-    <img src="<%=campground.image%>">
+<div class="container">
+    <div class="jumbotron">
+        <div></div>
+        <h1>Welcome to campgrounds:</h1>
+        <h4>The #1 place for the best camp grounds in the world</h4>
+        <p>
+            <a class="btn btn-primary" href="/campgrounds/new">Create a new campground</a>
+        </p>
+    </div>
+    <div class="row">
+        <div >
+            <% places.forEach(function(campground){ %>
+            <div class="col-md-4 col-sm-6">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="<%=campground.image%>">
+                    <h4 class="caption"><%=campground.name%></h4>
+                </div>
+            </div>
+            <%})%>
+        </div>
+
+    </div>
+
+
 </div>
-
-<%})%>
+<% include ./partials/footer %>
