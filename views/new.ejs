@@ -4,10 +4,17 @@
     <div id="new-camp">
         <form action="/campgrounds" method="post" >
         <div class="form-group">
-            <input class="form-control" type="text" name="name" placeholder="name">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="name">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" name="image" placeholder="image link">
+            <label for="image">Image url</label>
+            <input class="form-control" type="text" id="image" name="image" placeholder="image link">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+            <!--<input class="form-control" type="text" id="description" name="description" placeholder="Scribe your thoughts about the ground ...">-->
         </div>
         <div class="form-group">
             <button class="btn btn-primary btn-block">Submit</button>
