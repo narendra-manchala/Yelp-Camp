@@ -2,8 +2,13 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-Campground = require("./models/campground");
 
+var Comment = require("./models/comment")
+Campground = require("./models/campground");
+// Comment = require("./models/comment")
+seedDB = require("./seeds")
+
+seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp');
 
 
@@ -15,12 +20,29 @@ app.get('/', function(req, res){
     res.render("landing");
 });
 
+// Campground.create({
+//     name:'Salmon Creek',
+//     image:"https://upload.wikimedia.org/wikipedia/commons/0/05/Biskeri-_Camping_I_IMG_7238.jpg"
+// }, function(err, camp){
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(camp);
+//     }
+// });
+// var campgrounds = [
+//     {name:'Salmon Creek', image:"https://upload.wikimedia.org/wikipedia/commons/0/05/Biskeri-_Camping_I_IMG_7238.jpg"},
+//     {name:'Granite Hill', image:"http://www.blog.weekendthrill.com/wp-content/uploads/2016/07/071416_1116_25AwesomeCa21.png"},
+//     {name:'Mountain Rest', image:"https://www.caravancampingsites.co.uk/broomfield.jpg"}
+// ];
+
 app.get("/campgrounds", function(req, res){
     Campground.find({}, function(err, camp1){
         if(err){
             console.log(err);
         }else{
-            res.render("campgrounds", {places:camp1});
+            // console.log(camp1)
+            res.render("campgrounds/campgrounds", {places:camp1});
         }
     })
 });
@@ -43,15 +65,45 @@ app.post("/campgrounds", function(req, res){
 });
 
 app.get("/campgrounds/new", function(req, res){
-    res.render("new")
+    res.render("campgrounds/new")
 });
 
 app.get("/campgrounds/:id",function(req, res){
-    Campground.findById(req.params.id, function(err, camp3){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, camp3){
         if(err){console.log(err)}else{
             // console.log(typeof camp3);
             // console.log(camp3.name);
-            res.render("show", {camp : camp3});
+            // console.log(camp3)
+            res.render("campgrounds/show", {camp : camp3});
+        }
+    })
+})
+
+app.get("/campgrounds/:id/comments/new", function(req, res){
+    Campground.findById(req.params.id, function(err, campground){
+        if(err){console.log(err)}else{
+            // console.log(campground)
+            res.render("comments/new", {campground:campground});
+        }
+    })
+
+})
+
+app.post("/campgrounds/:id/comments", function(req, res){
+    Campground.findById(req.params.id, function(err, campground){
+        if(err){
+            console.log(err);
+            res.redirect("/campgrounds");
+        }else{
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err)
+                }else{
+                    campground.comments.push(comment);
+                    campground.save();
+                    res.redirect("/campgrounds/"+campground._id);
+                }
+            })
         }
     })
 })
