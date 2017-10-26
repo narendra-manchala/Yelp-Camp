@@ -7,6 +7,7 @@ var Comment = require("./models/comment")
 Campground = require("./models/campground");
 // Comment = require("./models/comment")
 seedDB = require("./seeds")
+app.use(express.static(__dirname+"/public"))
 
 seedDB()
 mongoose.connect('mongodb://localhost/yelp_camp');
