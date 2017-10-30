@@ -1,11 +1,11 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
 
-
-router.get("/campgrounds/:id/comments/new", function(req, res){
+//add comments form
+router.get("/new", function(req, res){
     Campground.findById(req.params.id, function(err, campground){
         if(err){console.log(err)}else{
             // console.log(campground)
@@ -15,7 +15,8 @@ router.get("/campgrounds/:id/comments/new", function(req, res){
 
 })
 
-router.post("/campgrounds/:id/comments",isLoggedIn, function(req, res){
+//add comments logic
+router.post("/",isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
         if(err){
             console.log(err);
@@ -34,6 +35,7 @@ router.post("/campgrounds/:id/comments",isLoggedIn, function(req, res){
     })
 })
 
+//middle ware
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
