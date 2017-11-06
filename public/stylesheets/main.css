@@ -8,3 +8,11 @@
     padding: 9px;
 }
 
+#new-camp{
+    width: 300px;
+    margin:0 auto;
+}
+
+#delete-form{
+    display: inline;
+}

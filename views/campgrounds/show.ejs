@@ -18,20 +18,35 @@
                 <h4 class="pull-right">$9/night</h4>
                 <h4><a href="#"><%=camp.name%></a></h4>
                 <p> <%= camp.description%></p>
+                <p><em>Submitted by <%=camp.author.username%></em></p>
             </div>
+            <% if(currentUser && camp.author.id.equals(currentUser._id)){%>
+            <a class="btn btn-xs btn-warning" href="/campgrounds/<%=camp.id%>/edit">Edit</a>
+            <form id="delete-form" action="/campgrounds/<%=camp.id%>" method="post">
+                <button class="btn btn-xs btn-danger">Delete</button>
+            </form>
+            <%}%>
         </div>
         <div class="well">
             <div class="text-right">
-                <a class="btn btn-success" href="/campgrounds/<%=camp.id%>/comments/new">New Comment</a>
+                <a class="btn btn-success" href="/campgrounds/<%=camp.id%>/comments/new">
+                    New Comment
+                </a>
             </div>
             <hr>
             <div>
                 <%camp.comments.forEach(function(comment){%>
                 <div class="row">
                     <div class="col-md-12">
-                       <strong><%=comment.author%></strong>
+                       <strong><%=comment.author.username%></strong>
                         <span class="pull-right">10days ago</span>
                         <p><%=comment.text%></p>
+                        <% if (currentUser && comment.author.id.equals(currentUser._id)){%>
+                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= camp.id%>/comments/<%=comment._id%>/edit">Edit</a>
+                        <form id="delete-form" action="/campgrounds/<%= camp.id%>/comments/<%=comment._id%>%>" method="post">
+                            <button class="btn btn-xs btn-danger" >Delete</button>
+                        </form>
+                        <%}%>
                     </div>
                 </div>
                 <%})%>
@@ -39,5 +54,5 @@
         </div>
     </div>
     </div>
-
+</div>
 <% include ../partials/footer.ejs %>
