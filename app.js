@@ -48,6 +48,6 @@ app.use("/",indexRoutes);
 app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 
-app.listen(3000, "localhost", function(){
+app.listen(4000, "localhost", function(){
     console.log("Yelp camp has started");
 });
